@@ -37,6 +37,7 @@ class TicTacToe:
         self.corner_spots = [7, 9, 1, 3]
         self.edge_spots = [8, 4, 6, 2]
 
+
         if self.player == 1:
             self.comp_first_turn = False  # to decide comp moves based on comp's 1st/2nd turn
             print("Your turn first")
@@ -110,7 +111,8 @@ class TicTacToe:
 
         common = list(itertools.chain(*common))
         common = [i for i in common if i not in (set(player_entry).union(set(edge_entry)))]
-        return max(set(common), key=common.count)
+        if max(set(common), key=common.count) in self.available_entry:
+            return max(set(common), key=common.count)
 
     def first_comp(self):  # comp algorithm when comp has first move
         if len(self.comp_entry) == 0:
@@ -144,13 +146,13 @@ class TicTacToe:
             elif self.player_entry[0] in edge_entry and self.player_entry[1] in edge_entry:
                 if self.smart_spot(self.player_entry):  # CCS else corner
                     print("thinking...")
-                    time.sleep(2)
+                    time.sleep(1)
                     return self.smart_spot(self.player_entry)
                 else:
                     return random.choice(self.corner_spots)
             elif self.player_entry[0] in edge_entry and self.player_entry[1] in corner_entry:
                 print("thinking...")
-                time.sleep(2)
+                time.sleep(1)
                 return self.smart_spot(self.player_entry)  # avoid loss else CCS
 
             elif self.player_entry[0] in corner_entry and self.player_entry[1] in edge_entry:
@@ -179,6 +181,19 @@ class TicTacToe:
         self.comp_entry.append(key)
         print(f"Computer entered number: {key}")
 
+
+def play_again():
+    wish = (input(" Want to play again(Y/N): ")).lower()
+    print(wish)
+    if wish and wish[0] == "n":
+        print("\n  Thanks for playing")
+        return False
+    else:
+        print("\n  Let's play again")
+        return True
+
+
+    
 
 def wrong_input():
     print("""
